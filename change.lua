@@ -1,4 +1,6 @@
 
+local S = minercantile.get_translator
+
 local coins_convert = {
 	["minercantile:copper_coin"]=1, ["minercantile:silver_coin"]=100, ["minercantile:gold_coin"]=10000,
 	["maptools:copper_coin"]=1, ["maptools:silver_coin"]=100, ["maptools:gold_coin"]=10000,
@@ -20,7 +22,7 @@ if minetest.get_modpath("maptools") ~= nil then
 	})
 else
 	minetest.register_craftitem("minercantile:copper_coin", {
-		description = "Copper Coin",
+		description = S("Copper Coin"),
 		inventory_image = "minercantile_copper_coin.png",
 		wield_scale = {x = 0.5, y = 0.5, z = 0.25},
 		stack_max = 10000,
@@ -28,7 +30,7 @@ else
 	})
 
 	minetest.register_craftitem("minercantile:silver_coin", {
-		description = "Silver Coin",
+		description = S("Silver Coin"),
 		inventory_image = "minercantile_silver_coin.png",
 		wield_scale = {x = 0.5, y = 0.5, z = 0.25},
 		stack_max = 10000,
@@ -36,7 +38,7 @@ else
 	})
 
 	minetest.register_craftitem("minercantile:gold_coin", {
-		description = "Gold Coin",
+		description = S("Gold Coin"),
 		inventory_image = "minercantile_gold_coin.png",
 		wield_scale = {x = 0.5, y = 0.5, z = 0.25},
 		stack_max = 10000,
@@ -52,9 +54,9 @@ end
 local function get_bancomatic_formspec(pos, name)
 	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
 	local formspec =
-		"size[8,9]bgcolor[#2A2A2A;]label[3.35,0;Bancomatic]" ..
-		"label[0,0;Your money:"..minercantile.wallet.get_money(name).."$]" ..
-		"label[2,1;Put your coins to convert on your wallet]" ..
+		"size[8,9]bgcolor[#2A2A2A;]label[3.35,0;".. S("Bancomatic") .."]" ..
+		"label[0,0;".. S("Your money: @1$", minercantile.wallet.get_money(name)).."]" ..
+		"label[0,1;".. S("Put your coins to convert on your wallet.").."]" ..
 
 		"image[0,1.5;1,1;minercantile_gold_coin.png]" ..
 		"label[1,1.7;= "..coins_convert["minercantile:gold_coin"].."$]" ..
@@ -62,7 +64,8 @@ local function get_bancomatic_formspec(pos, name)
 		"label[1,2.7;= "..coins_convert["minercantile:silver_coin"].."$]" ..
 		"image[0,3.5;1,1;minercantile_copper_coin.png]" ..
 		"label[1,3.7;= "..coins_convert["minercantile:copper_coin"].."$]" ..
-
+		"button[5.80,3.80;2.2,1;open_wallet;".. S("My wallet") .."]"..
+		"tooltip[open_wallet;".. S("Display the wallet") .."]"..
 		"list[nodemeta:" .. spos .. ";main;3.5,2.5;1,1;]" ..
 		"list[current_player;main;0,4.85;8,1;]" ..
 		"list[current_player;main;0,6.08;8,3;8]" ..
@@ -72,10 +75,21 @@ local function get_bancomatic_formspec(pos, name)
 	return formspec
 end
 
+--bancomatic button to open wallet
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	local name = player:get_player_name()
+	if not name or name == "" then return end
+	if formname == "minercantile:bancomatic" then
+		if fields["open_wallet"] then
+			minetest.show_formspec(name, "minercantile:wallet", minercantile.get_formspec_wallet(name))
+			return
+		end
+	end
+end)
 
 --change money. code based on atm from https://github.com/minetest-mods/global_exchange
 minetest.register_node("minercantile:bancomatic_bottom", {
-	description = "Bancomatic",
+	description = S("Bancomatic"),
 	inventory_image = "minercantile_bancomatic_front.png",
 	wield_image = "minercantile_bancomatic_front.png",
 	drawtype = "nodebox",
@@ -144,7 +158,7 @@ minetest.register_node("minercantile:bancomatic_bottom", {
 	end,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Bancomatic")
+		meta:set_string("infotext", S("Bancomatic"))
 		local inv = meta:get_inventory()
 		inv:set_size("main", 1 * 1)
 	end,

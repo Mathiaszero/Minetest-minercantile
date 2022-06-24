@@ -1,0 +1,111 @@
+# textdomain: minercantile
+
+
+### shop.lua ###
+
+Shop=Boutique
+Sorry, you have not enough money.=Désolé, vous n'avez pas assez d'argent.
+Return=Retour
+Close=Fermer
+Sorry, shop have 0 item @1.=Désolé, la boutique a 0 article @1.
+Purchase=Achat
+Price=Prix
+You buy @1 @2.=Vous avez acheté @1 @2.
+Price: @1$.=Prix: @1$.
+Buy Items=Achat d'articles
+Your money: @1$=Votre argent: @1$
+Page: @1 of @2=Page @1 sur @2
+Filter: @1=Filtre: @1
+Search=Chercher
+Previous page=Page précédente
+Next page=Page suivante
+Stock: @1=Stock: @1
+This item is being sold by 1 max.=Cet article est vendu par 1 max.
+Amount: @1 item(s).=Quantité: @1 article(s).
+Total: @1$.=Total: @1$.
+Confirm=Confirmer
+Sorry, shop have not enough money.=Désolé, la boutique n'a pas assez d'argent.
+Sorry, You have 0 item @1.=Désolé, vous avez 0 articles @1.
+Sale=Vente
+You sell @1 @2.=Vous avez vendu @1 @2.
+Sell Items=Vendre des articles
+Total purchases: @1=Total d'achats: @1
+Total sales: @1=Total de ventes: @1
+Buy=Acheter
+Sell=Vendre
+Shop Admin=Administration de la boutique
+Shop Type:=Type de boutique
+Is Open: Yes=Est ouverte: Oui
+No=Non
+Is Open: No=Est ouverte: Non
+Yes=Oui
+Open 24/24: Yes=Ouverte 24/24: Oui
+Open 24/24: No=Ouverte 24/24: Non
+Shop money: @1$=Argent boutique: @1$
+@1 Shop=Boutique @1
+Barter Shop=Boutique de troc
+General Shop=Boutique générale
+Sorry, shop is closed.=Désolé, la boutique est fermée.
+Open only from 8am to 7pm.=Ouverture seulement de 8h à 19h.
+<Amount>=<Montant>
+Add money to the shop=Ajouter de l'argent de la boutique
+Invalid, you must add amount at param.=Invalide, vous devez ajouter un montant en paramètre.
+You add @1$, new total: @2$=Vous avez ajouté @1$, nouveau total: @2$
+Delete money from the shop=Retirer de l'argent de la boutique
+You deleted @1$, new total: @2$.=Vous avez enlevé @1$, nouveau total: @2$
+<Itemname> <Number>=<Nom d'article> <Nombre>
+Add item to the shop=Ajouter un article dans la boutique
+Invalid, missing param.=Invalide, manque paramètre.
+Invalid param, item unknow.=Invalide paramètre, article inconnu.
+Invalid param amount.=Invalide parametre montant.
+You add @1 @2, new amount: @3.=Vous avez ajouté @1 @2, nouvelle quantité: @3.
+Delete item from the shop=Retirer un article de la boutique
+Shop don't know item @1.=La boutique ne connait pas l'article @1.
+You deleted @1 @2, new amount: @3.=Vous supprimez @1 @2, nouvelle quantité: @3.
+<Itemname>=<Nom d'article>
+Get item price=Obtenir le prix de l'article
+The price of item @1 is defined to @2$.=Le prix de l'article @1 est défini à @2$.
+Item @1 has no defined price.=L'article @1 n'a pas de prix défini.
+<Itemname> <Price>=<Nom d'article> <Prix>
+Defines a fixed price=Défini un prix fixe
+Invalid param price.=Invalide parametre prix.
+The price of item @1 is now defined to @2$.=Le prix de l'article @1 est maintenant défini à @2$.
+
+
+### change.lua ###
+
+Copper Coin=Pièce en cuivre
+Silver Coin=Pièce en argent
+Gold Coin=Pièce en or
+Bancomatic=Bancomatique
+Put your coins to convert on your wallet.=Glissez vos pièces pour convertir sur votre portefeuille.
+My wallet=Mon portefeuille
+Display the wallet=Afficher le portefeuille
+
+
+### wallets.lua ###
+
+Sent @1$ to @2.=Envoyé @1$ à @2.
+Received @1$ from @2.=Reçu @1$ de @2.
+Sold: @1$=Solde: @1$
+10 last transactions=10 dernières transactions
+There are no transactions=Il n'y a pas de transactions
+Transfert=Virement
+Sorry you can't send money, minimum amount is 5$.=Désolé, vous ne pouvez pas envoyer d'argent, le montant minimum est de 5 $.
+There are no player, refresh.=Il n'y a pas de joueur, actualisez.
+refresh list=Actualiser la liste
+Send @1$ to @2?=Envoyer @1$ à @2?
+Send=Envoyer
+Amount to send (minimum 5$)=Montant à envoyer (minimum 5$)
+Wallet=Portefeuille
+Validate sending=Valider l'envoi
+Abort=Annuler
+Validated=Validé
+Money sent.=Argent envoyé.
+Error=Erreur
+Error occured=Erreur survenue
+
+
+### init.lua ###
+
+Can place|dig|configure shop=Peut placer|enlever|configurer la boutique
