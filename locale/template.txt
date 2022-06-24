@@ -1,0 +1,111 @@
+# textdomain: minercantile
+
+
+### shop.lua ###
+
+Shop=
+Sorry, you have not enough money.=
+Return=
+Close=
+Sorry, shop have 0 item @1.=
+Purchase=
+Price=
+You buy @1 @2.=
+Price: @1$.=
+Buy Items=
+Your money: @1$=
+Page: @1 of @2=
+Filter: @1=
+Search=
+Previous page=
+Next page=
+Stock: @1=
+This item is being sold by 1 max.=
+Amount: @1 item(s).=
+Total: @1$.=
+Confirm=
+Sorry, shop have not enough money.=
+Sorry, You have 0 item @1.=
+Sale=
+You sell @1 @2.=
+Sell Items=
+Total purchases: @1=
+Total sales: @1=
+Buy=
+Sell=
+Shop Admin=
+Shop Type:=
+Is Open: Yes=
+No=
+Is Open: No=
+Yes=
+Open 24/24: Yes=
+Open 24/24: No=
+Shop money: @1$=
+@1 Shop=
+Barter Shop=
+General Shop=
+Sorry shop is closed.=
+Open only from 8am to 7pm.=
+<Amount>=
+Add money to the shop=
+Invalid, you must add amount at param.=
+You add @1$, new total: @2$=
+Delete money from the shop=
+You deleted @1$, new total: @2$.=
+<Itemname> <Number>=
+Add item to the shop=
+Invalid, missing param.=
+Invalid param, item unknow.=
+Invalid param amount.=
+You add @1 @2, new amount: @3.=
+Delete item from the shop=
+Shop don't know item @1.=
+You deleted @1 @2, new amount: @3.=
+<Itemname>=
+Get item price=
+The price of item @1 is defined to @2$.=
+Item @1 has no defined price.=
+<Itemname> <Price>=
+Defines a fixed price=
+Invalid param price.=
+The price of item @1 is now defined to @2$.=
+
+
+### change.lua ###
+
+Copper Coin=
+Silver Coin=
+Gold Coin=
+Bancomatic=
+Put your coins to convert on your wallet.=
+My wallet=
+Display the wallet=
+
+
+### wallets.lua ###
+
+Sent @1$ to @2.=
+Received @1$ from @2.=
+Sold: @1$=
+10 last transactions=
+There are no transactions=
+Transfert=
+Sorry you can't send money, minimum amount is 5$.=
+There are no player, refresh.=
+refresh list=
+Send @1$ to @2?=
+Send=
+Amount to send (minimum 5$)=
+Wallet=
+Validate sending=
+Abort=
+Validated=
+Money sent.=
+Error=
+Error occured=
+
+
+### init.lua ###
+
+Can place|dig|configure shop=

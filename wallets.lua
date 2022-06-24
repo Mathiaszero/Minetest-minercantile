@@ -1,3 +1,5 @@
+local S = minercantile.get_translator
+
 local states = {}
 
 --function load a player's wallet
@@ -68,7 +70,7 @@ function minercantile.wallet.give_money(name, amount, transaction)
 	end
 	minercantile.wallets[name].money = minercantile.wallet.get_money(name) + amount
 	if transaction then
-		local trans = os.date().. ":"..transaction
+		local trans = os.date().. ": "..transaction
 		minercantile.add_transactions(name, trans)
 	end
 	minercantile.wallet.save_wallet(name)
@@ -112,8 +114,8 @@ function minercantile.send_money(sender, receiver, amount)
 	if minercantile.wallet.get_money(sender) < amount then
 		return false
 	end
-	minercantile.wallet.take_money(sender, amount, "Send "..amount.."$ to "..receiver)
-	minercantile.wallet.give_money(receiver, amount, "Received "..amount.."$ from "..sender)
+	minercantile.wallet.take_money(sender, amount, S("Sent @1$ to @2.", amount, receiver))
+	minercantile.wallet.give_money(receiver, amount, S("Received @1$ from @2.", amount, sender))
 	return true
 end
 
@@ -123,23 +125,23 @@ function minercantile.get_formspec_wallet(name)
 		minercantile.wallet.load_wallet(name)
 	end
 	local formspec = {}
-	table.insert(formspec,"size[10,9]bgcolor[#2A2A2A;]label[4.4,0;My Wallet]")
-	table.insert(formspec,"label[0.5,1;Sold: ".. tostring(minercantile.wallet.get_money(name)) .."$]")
-	table.insert(formspec,"label[4,2.3;10 last transactions]")
+	table.insert(formspec,"size[9,9]bgcolor[#2A2A2A;]label[4,0;".. S("My wallet") .."]")
+	table.insert(formspec,"label[0.5,1;".. S("Sold: @1$", tostring(minercantile.wallet.get_money(name))) .."]")
+	table.insert(formspec,"label[3.2,2.3;".. S("10 last transactions") .."]")
 
 	local transactions = minercantile.wallet.get_transactions(name)
 	if #transactions < 1 then
-		table.insert(formspec,"label[3.5,4;There are no transactions]")
+		table.insert(formspec,"label[3.5,4;"..S("There are no transactions") .."]")
 	else
 		local y = 3
 		for _,transac in pairs(transactions) do
-		table.insert(formspec,"label[1.5,"..y..";".. transac .."]")
+		table.insert(formspec,"label[0.5,"..y..";".. transac .."]")
 			y = y+0.4
 		end
 	end
 
-	table.insert(formspec,"button[0,8.2;1.5,1;page;Transfert]")
-	table.insert(formspec,"button_exit[8,8.2;1.5,1;close;Close]")
+	table.insert(formspec,"button[0,8.2;1.5,1;page;".. S("Transfert") .."]")
+	table.insert(formspec,"button_exit[7.6,8.2;1.5,1;close;".. S("Close") .."]")
 	return table.concat(formspec)
 end
 
@@ -147,11 +149,11 @@ end
 function minercantile.get_formspec_wallet_transfert(name)
 	local money = minercantile.wallet.get_money(name)
 	local formspec = {}
-	table.insert(formspec,"size[10,9]bgcolor[#2A2A2A;]label[4.4,0;My Wallet]")
-	table.insert(formspec,"label[0.5,1;Sold: ".. tostring(money) .."$]")
+	table.insert(formspec,"size[10,9]bgcolor[#2A2A2A;]label[4,0;".. S("My wallet") .."]")
+	table.insert(formspec,"label[0.5,1;".. S("Sold: @1$", tostring(money)) .."]")
 
 	if money < 5 then
-		table.insert(formspec, "label[2,4.5;Sorry you can't send money, minimum amount is 5$]")
+		table.insert(formspec, "label[2,4.5;".. S("Sorry you can't send money, minimum amount is 5$.") .."]")
 	else
 		if not states[name] then
 			states[name] = {}
@@ -172,14 +174,16 @@ function minercantile.get_formspec_wallet_transfert(name)
 			states[name].amount = 5
 		end
 		if #states[name].players_list == 0 then
-			table.insert(formspec, "label[2,3.6;There are no player, refresh]")
-			table.insert(formspec,"button[6,3.4;2,1;refresh;refresh list]")
+			table.insert(formspec, "label[2,3.6;".. S("There are no player, refresh.") .."]")
+			table.insert(formspec,"button[6,3.4;2.2,1;refresh;".. S("refresh list") .."]")
 		else
 			table.insert(formspec, "dropdown[3,3.5;3,1;receiver;"..table.concat(states[name].players_list, ",")..";"..states[name].selected_id.."]")
-			table.insert(formspec, "label[3.5,6.4;Send "..states[name]["amount"].."$ to "..(states[name]["receiver"] or "").." ?]")
-			table.insert(formspec,"button[4.1,7;1.5,1;send;send]")
-			table.insert(formspec,"button[6,3.4;1.5,1;refresh;refresh list]")
-			table.insert(formspec, "label[3.5,4.5;Amount to send (minimum 5$)]")
+			if states[name]["receiver"] ~= nil then
+			table.insert(formspec, "label[3.5,6.4;".. S("Send @1$ to @2?", states[name]["amount"], states[name]["receiver"]).."]")
+				table.insert(formspec,"button[4.1,7;1.5,1;send;".. S("Send") .."]")
+			end
+			table.insert(formspec,"button[6,3.4;2.2,1;refresh;".. S("refresh list") .."]")
+			table.insert(formspec, "label[3.3,4.5;".. S("Amount to send (minimum 5$)") .."]")
 			table.insert(formspec, "button[1.7,5;1,1;amount;-1]")
 			table.insert(formspec, "button[2.7,5;1,1;amount;-10]")
 			table.insert(formspec, "button[3.7,5;1,1;amount;-100]")
@@ -189,17 +193,17 @@ function minercantile.get_formspec_wallet_transfert(name)
 			table.insert(formspec, "button[7.4,5;1,1;amount;+1]")
 		end
 	end
-	table.insert(formspec,"button[0,8.2;1.5,1;page;wallet]")
-	table.insert(formspec,"button_exit[8,8.2;1.5,1;close;Close]")
+	table.insert(formspec,"button[0,8.2;1.5,1;page;".. S("Wallet") .."]")
+	table.insert(formspec,"button_exit[8,8.2;1.5,1;close;".. S("Close") .."]")
 	return table.concat(formspec)
 end
 
 
 function minercantile.get_formspec_wallet_transfert_send(name)
-	local formspec = {"size[6,3]bgcolor[#2A2A2A;]label[2,0;Validate sending]"}
-	table.insert(formspec, "label[2,1.2;Send "..tostring(states[name]["amount"]).."$ to ".. states[name]["receiver"] .."]")
-	table.insert(formspec, "button_exit[1.1,2.1;1.5,1;close;Abort]")
-	table.insert(formspec, "button[3.3,2.1;1.5,1;send;Send]")
+	local formspec = {"size[6,3]bgcolor[#2A2A2A;]label[2,0;".. S("Validate sending") .."]"}
+	table.insert(formspec, "label[1.2,1.2;".. S("Send @1$ to @2?", tostring(states[name]["amount"]), states[name]["receiver"]) .."]")
+	table.insert(formspec, "button_exit[1.1,2.1;1.5,1;close;".. S("Abort") .."]")
+	table.insert(formspec, "button[3.3,2.1;1.5,1;send;".. S("Send") .."]")
 	return table.concat(formspec)
 end
 
@@ -256,9 +260,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	elseif formname == "minercantile:transfert_send" then
 		if fields["send"] then
 			if minercantile.send_money( name, states[name]["receiver"], states[name]["amount"]) then
-				minetest.show_formspec(name, "minercantile:ended", "size[5,3]bgcolor[#2A2A2A;]label[1.8,0;Validated]label[1.7,1;Money sent]button_exit[1.8,2.1;1.5,1;close;Close]")
+				minetest.show_formspec(name, "minercantile:ended", "size[5,3]bgcolor[#2A2A2A;]"..
+					"label[1.8,0;".. S("Validated") .."]"..
+					"label[1.7,1;".. S("Money sent.") .."]"..
+					"button_exit[1.8,2.1;1.5,1;close;".. S("Close") .."]")
 			else
-				minetest.show_formspec(name, "minercantile:ended", "size[5,3]bgcolor[#2A2A2A;]label[1.6,0;Error]label[1.6,1;Error occured]button_exit[1.8,2.1;1.5,1;close;Close]")
+				minetest.show_formspec(name, "minercantile:ended", "size[5,3]bgcolor[#2A2A2A;]"..
+					"label[1.6,0;".. S("Error") .."]"..
+					"label[1.6,1;".. S("Error occured") .."]"..
+					"button_exit[1.8,2.1;1.5,1;close;".. S("Close") .."]")
 			end
 		elseif fields["quit"] or fields["close"] then
 			states[name] = nil
@@ -272,7 +282,7 @@ if (minetest.get_modpath("unified_inventory")) then
 	unified_inventory.register_button("wallet", {
 		type = "image",
 		image = "minercantile_gold_coin.png",
-		tooltip = "My Wallet",
+		tooltip = S("My wallet"),
 		show_with = "interact",
 		action = function(player)
 			local name = player:get_player_name()
@@ -281,17 +291,17 @@ if (minetest.get_modpath("unified_inventory")) then
 			minetest.show_formspec(name, "minercantile:wallet", formspec)
 		end,
 	})
-else
-	minetest.register_chatcommand("wallet",{
-		params = "",
-		description = "Shows your money wallet",
-		privs = {interact= true},
-		func = function (name, params)
-		local formspec = minercantile.get_formspec_wallet(name)
-		minetest.show_formspec(name, "minercantile:wallet", formspec)
-		end,
-	})
 end
+minetest.register_chatcommand("wallet",{
+	params = "",
+	description = S("Display the wallet"),
+	privs = {interact= true},
+	func = function (name, params)
+	local formspec = minercantile.get_formspec_wallet(name)
+	minetest.show_formspec(name, "minercantile:wallet", formspec)
+	end,
+})
+
 
 
 minetest.register_on_joinplayer(function(player)

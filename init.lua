@@ -1,5 +1,15 @@
+-----------------------------------------------------------------------------------------------
+local version 	= "2.0.0"
+local mname		= "minercantile"
+
+minetest.log("action","[Mod] ".. mname .." Loading...")
+
+local S = minetest.get_translator(minetest.get_current_modname())
+
 minercantile = {}
-minetest.register_privilege("shop", "Can place|dig|configure shop")
+minercantile.get_translator = S
+
+minetest.register_privilege("shop", S("Can place|dig|configure shop"))
 --path
 minercantile.path = minetest.get_worldpath()
 minercantile.path_wallet =  minercantile.path.. "/minercantile_wallet/"
@@ -33,11 +43,22 @@ dofile(minetest.get_modpath("minercantile") .. "/shop.lua")
 
 
 --load items base and available
-minercantile.load_stock_base()
 minetest.after(10, function()
 		minercantile.shop.register_items()
+		minercantile.load_stock_base()
 		minercantile.load_stock()
 	end
 )
 
-minetest.log("action", "[minercantile] Loaded")
+
+--save on shutdown
+minetest.register_on_shutdown(function()
+	minetest.log("action", "[minercantile] Server shuts down, saving shop file.")
+	minercantile.save_stock()
+end)
+
+
+
+-----------------------------------------------------------------------------------------------
+minetest.log("action", "[Mod] "..mname.." ["..version.."] Loaded...")
+-----------------------------------------------------------------------------------------------
