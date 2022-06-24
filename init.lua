@@ -7,6 +7,7 @@ minetest.log("action","[Mod] ".. mname .." Loading...")
 local S = minetest.get_translator(minetest.get_current_modname())
 
 minercantile = {}
+minercantile.isloaded = false
 minercantile.get_translator = S
 
 minetest.register_privilege("shop", S("Can place|dig|configure shop"))
@@ -43,18 +44,21 @@ dofile(minetest.get_modpath("minercantile") .. "/shop.lua")
 
 
 --load items base and available
+minercantile.load_stock_base()
+minercantile.load_stock()
+
 minetest.after(10, function()
-		minercantile.shop.register_items()
-		minercantile.load_stock_base()
-		minercantile.load_stock()
-	end
-)
+	minercantile.shop.register_items()
+	minercantile.isloaded = true
+end)
 
 
 --save on shutdown
 minetest.register_on_shutdown(function()
 	minetest.log("action", "[minercantile] Server shuts down, saving shop file.")
-	minercantile.save_stock()
+	if minercantile.isloaded then -- dont save empty file if not loaded (crash/stop on boot)
+		minercantile.save_stock()
+	end
 end)
 
 
